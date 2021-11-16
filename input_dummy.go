@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-// DummyInput used for debugging. It generate 1 "GET /"" request per second.
+// DummyInput used for debugging. It generate 1 "GET /"" request per second. 定时发送请求
 type DummyInput struct {
 	data chan []byte
 	quit chan struct{}

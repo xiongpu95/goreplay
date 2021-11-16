@@ -19,10 +19,12 @@ import (
 )
 
 var (
+	//启动参数中获取
 	cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")
 	memprofile = flag.String("memprofile", "", "write memory profile to this file")
 )
 
+//一些监控功能支持
 func init() {
 	var defaultServeMux http.ServeMux
 	http.DefaultServeMux = &defaultServeMux
@@ -31,6 +33,7 @@ func init() {
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		fmt.Fprintf(w, "{\n")
 		first := true
+		//expvar 监控服务运行各项指标和状态的包
 		expvar.Do(func(kv expvar.KeyValue) {
 			if kv.Key == "memstats" || kv.Key == "cmdline" {
 				return
@@ -82,6 +85,7 @@ func main() {
 
 		log.Fatal(http.ListenAndServe(args[1], loggingMiddleware(args[1], http.FileServer(http.Dir(dir)))))
 	} else {
+		//把用户传递的命令行参数解析为对应的值
 		flag.Parse()
 		checkSettings()
 		plugins = NewPlugins()
@@ -109,7 +113,9 @@ func main() {
 
 	closeCh := make(chan int)
 	emitter := NewEmitter()
+	//异步启动
 	go emitter.Start(plugins, Settings.Middleware)
+	//定时关闭
 	if Settings.ExitAfter > 0 {
 		log.Printf("Running gor for a duration of %s\n", Settings.ExitAfter)
 
@@ -119,6 +125,7 @@ func main() {
 		})
 	}
 	c := make(chan os.Signal, 1)
+	//监听中断信号
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	exit := 0
 	select {

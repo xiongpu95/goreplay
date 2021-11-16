@@ -85,10 +85,11 @@ func (plugins *InOutPlugins) registerPlugin(constructor interface{}, options ...
 	plugins.All = append(plugins.All, plugin)
 }
 
-// NewPlugins specify and initialize all available plugins
+// NewPlugins specify and initialize all available plugins 指定并初始化所有可用插件
 func NewPlugins() *InOutPlugins {
 	plugins := new(InOutPlugins)
 
+	//定时发送模拟请求
 	for _, options := range Settings.InputDummy {
 		plugins.registerPlugin(NewDummyInput, options)
 	}
