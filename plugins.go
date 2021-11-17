@@ -92,7 +92,7 @@ func NewPlugins() *InOutPlugins {
 	for _, options := range Settings.InputDummy {
 		plugins.registerPlugin(NewDummyInput, options)
 	}
-
+	//模拟响应
 	for range Settings.OutputDummy {
 		plugins.registerPlugin(NewDummyOutput)
 	}
