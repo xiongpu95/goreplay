@@ -562,7 +562,9 @@ func (l *Listener) activateAFPacket() error {
 
 func (l *Listener) setInterfaces() (err error) {
 	var pifis []pcap.Interface
+	//获取所有网卡
 	pifis, err = pcap.FindAllDevs()
+	//返回该系统的网络接口列表
 	ifis, _ := net.Interfaces()
 	if err != nil {
 		return

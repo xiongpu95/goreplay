@@ -51,14 +51,15 @@ func extractLimitOptions(options string) (string, string) {
 // See this article if curious about reflect stuff below: http://blog.burntsushi.net/type-parametric-functions-golang
 func (plugins *InOutPlugins) registerPlugin(constructor interface{}, options ...interface{}) {
 	var path, limit string
+	//plugin 构造函数
 	vc := reflect.ValueOf(constructor)
 
-	// Pre-processing options to make it work with reflect
+	// Pre-processing options to make it work with reflect 参数列表
 	vo := []reflect.Value{}
 	for _, oi := range options {
 		vo = append(vo, reflect.ValueOf(oi))
 	}
-
+	//limit参数解析
 	if len(vo) > 0 {
 		// Removing limit options from path
 		path, limit = extractLimitOptions(vo[0].String())
@@ -67,18 +68,18 @@ func (plugins *InOutPlugins) registerPlugin(constructor interface{}, options ...
 		vo[0] = reflect.ValueOf(path)
 	}
 
-	// Calling our constructor with list of given options
+	// Calling our constructor with list of given options 调用构造函数 得到插件实例对象
 	plugin := vc.Call(vo)[0].Interface()
 
 	if limit != "" {
 		plugin = NewLimiter(plugin, limit)
 	}
 
-	// Some of the output can be Readers as well because return responses
+	// Some of the output can be Readers as well because return responses,是读插件？
 	if r, ok := plugin.(PluginReader); ok {
 		plugins.Inputs = append(plugins.Inputs, r)
 	}
-
+	//是写插件？
 	if w, ok := plugin.(PluginWriter); ok {
 		plugins.Outputs = append(plugins.Outputs, w)
 	}

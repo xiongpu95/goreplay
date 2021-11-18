@@ -48,7 +48,7 @@ func NewRAWInput(address string, config RAWInputConfig) (i *RAWInput) {
 	i = new(RAWInput)
 	i.RAWInputConfig = config
 	i.quit = make(chan bool)
-
+	//获取ip和端口
 	host, _ports, err := net.SplitHostPort(address)
 	if err != nil {
 		log.Fatalf("input-raw: error while parsing address: %s", err)

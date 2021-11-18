@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/Shopify/sarama v1.30.0
 	github.com/aws/aws-sdk-go v1.42.5
-	github.com/buger/goreplay v1.3.2
+	github.com/buger/goreplay v0.0.0
 	github.com/google/gopacket v1.1.20-0.20210429153827-3eaba0894325
 	github.com/mattbaird/elastigo v0.0.0-20170123220020-2fe47fd29e4b
 	github.com/stretchr/testify v1.7.0
@@ -32,6 +32,9 @@ require (
 	github.com/pierrec/lz4 v2.6.1+incompatible // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 // indirect
+	github.com/smartystreets/goconvey v1.7.2 // indirect
 	golang.org/x/crypto v0.0.0-20210920023735-84f357641f63 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )
+
+replace github.com/buger/goreplay => ./
